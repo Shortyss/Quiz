@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en">
+<head>
+    <title>Quiz planet</title>
+    <meta charset="UTF-8">
+    <meta name="viweport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'viewer/styles.css' %}">
+</head>
+<body>
+    <header class="headContainer">
+        <img class="headContainer-part" src="{% static 'pictures/quiz.png' %}">
+        <a href="{%url 'index' %}" class="headContainer-center"><h1>Quiz world</h1></a>
+        <img class="headContainer-part" src="{% static 'pictures/quiz.png' %}">
+    </header>
+    <main class="article">
+        {% block content %}{% endblock %}
+    </main>
+    <footer>Copyright created by Marcel Jurčák 2024</footer>
+    <script src="{% static 'viewer/script.js' %}"></script>
+</body>
+</html>

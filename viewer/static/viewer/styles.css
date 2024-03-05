@@ -1,0 +1,158 @@
+* {
+    box-sizing: border-box;
+
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to bottom, #B407FF, #FFFFFF);
+    font-family: SequentialistBB, cursive;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+}
+
+.headContainer {
+    width: 100vw;
+    height: 400px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes blink {
+    0% {opacity: 1; }
+    50% {opacity: 0; }
+    100% {opacity: 1; }
+}
+
+.headContainer-part {
+    width: 30%;
+}
+
+.headContainer-center {
+    font-size: 3em;
+    width: 40%;
+    text-align: center;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    transform: skew(-10deg, -10deg);
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: blink 3s linear infinite;
+    cursor: pointer;
+}
+
+footer {
+    height: 100px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    position: end;
+    bottom: 0;
+}
+
+.start_form {
+    display: flex;
+    flex-direction: column;
+}
+
+input, select, textarea {
+    border: none;
+}
+
+input {
+    width: 70px;
+}
+
+.category {
+    width: 60%;
+    margin-left: 10px;
+}
+
+.difficulty {
+    width: 40%;
+    margin-left: 20%;
+}
+
+.questions {
+    width: 40%;
+    margin-left: 50%;
+}
+
+p {
+    width: 20%;
+}
+
+.text {
+    margin-left: 60%;
+}
+
+@font-face {
+		font-family: 'SequentialistBB';
+		src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_1_0.woff2') format('woff2'),
+		url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_0_0.woff') format('woff');
+		font-style: normal;
+		font-weight: 400;
+		}
+	@font-face {
+		font-family: 'SequentialistBB';
+		src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_0_0.woff2') format('woff2'),
+		url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/306FA6_0_0.woff') format('woff');
+		font-style: italic;
+		font-weight: 400;
+		}
+
+section {
+  min-height: 150px;
+  display: flex;
+}
+
+section:nth-of-type(3) {
+  background: #0388fe;
+}
+blockquote.bubble {
+	background-position: center;
+  background-repeat: no-repeat !important;
+	background-size: 100% 100%;
+  margin: 0 auto;
+	text-align: center;
+	height: center;
+	box-sizing: content-box;
+
+}
+
+blockquote.electric {
+  background: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/electric.svg);
+  width: 33%;
+  font-size: 4vw;
+  font-style: italic;
+  padding: 4% 6% 12% 0%;
+}
+blockquote.electric span {
+  display: block;
+
+  font-weight: bold;
+}
+
+button {
+    height: 40px;
+    width: 300px;
+    background: #9933ff;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    cursor: pointer;
+}
+
+.start {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    margin-top: 90px;
+    margin-bottom: 20px;
+}

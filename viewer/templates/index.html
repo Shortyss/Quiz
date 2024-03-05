@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <div class="index-container">
+        <form method="post" action="/start_game">
+            <div class="start_form">
+                {% csrf_token %}
+                <div class="category">
+                    <section>
+                        <blockquote class="electric bubble"><span>
+                            <select name="category" class="custom-select">
+                                {% for category in categories %}
+                                    <option {% if forloop.first %} selected {% endif %} value="{{ category.id }}">{{ category.name|title }}</option>
+                                {% endfor %}
+                            </select>
+                        </span></blockquote>
+                    </section>
+                    <h2 class="text">Chose topic</h2>
+                </div>
+
+                <div class="difficulty">
+                    <section>
+                        <blockquote class="electric bubble"><span>
+                            <select name="difficulty" class="custom-select">
+                                {% for level in difficulty %}
+                                    <option {% if forloop.first %}selected{% endif %} value="{{ level }}">{{ level|title }}</option>
+                                {% endfor %}
+                            </select>
+                        </span></blockquote>
+                    </section>
+                    <h2 class="text">Choose the difficulty level</h2>
+                </div>
+
+                <div class="questions">
+
+                <section>
+                    <blockquote class="electric bubble"><span><input class="electric bubble" type="number" name="quantity" min="1" max="{{ amount }}" value="10"></span></blockquote>
+                </section>
+                <h2 class="text">Choose number of questions (max:<span id="available_questions"></span>)</h2>
+                </div>
+            </div>
+
+            <div class="start">
+                <button type="submit" class="start_game_button">Start game!</button>
+            </div>
+        </form>
+
+    </div>
+
+{% endblock %}

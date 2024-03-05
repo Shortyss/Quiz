@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>The best score:</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Score</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for score in scores %}
+            <tr>
+                <td>{{ score.name }}</td>
+                <td>{{ score.score }}</td>
+                <td>{{ score.date_played }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
