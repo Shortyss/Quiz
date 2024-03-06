@@ -33,10 +33,3 @@ class ApiClient:
 
         return response.json()['results']
 
-    # @classmethod
-    # def get_questions(cls, max_questions: int, difficulty: str, category: int) -> dict:
-    #     print('category API: ', category)
-    #     print('max questions API: ', max_questions)
-    #     print('difficulty API: ', difficulty)
-    #     return get(ApiClient.QUESTIONS_URL.format(max_questions, category, difficulty)).json()['results']
-    #

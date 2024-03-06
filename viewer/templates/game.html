@@ -7,18 +7,22 @@
 <div class="game">
     <form action="" method="post">
         {% csrf_token %}
-        <div class="questions">
+        <div class="text-question">
             <h3 class="question">
-                {{ question.question | escape }}
+                {{ question.question|safe }}
             </h3>
         </div>
 
         <div class="answers">
             {% for answer in question.answers %}
-            <label>
-                <input type="radio" name="answer" value="{{ answer }}"> {{ answer | escape }}
-            </label>
+              <div class="form-check">
+                <input type="radio" id="{{ answer }}" name="answer" value="{{ answer }}">
+                <label for="{{ answer }}">{{ answer|safe }}</label>
+              </div>
             {% endfor %}
+        </div>
+
+        <div class="start">
             <button type="submit" class="next">Next</button>
         </div>
     </form>

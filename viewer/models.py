@@ -6,7 +6,8 @@ from typing import List
 import requests
 
 from django.db import models
-from django.db.models import Model, TextChoices, CharField, IntegerField, DateTimeField, JSONField, ForeignKey
+from django.db.models import Model, TextChoices, CharField, IntegerField, DateTimeField, JSONField, ForeignKey, \
+    DO_NOTHING, TextField, ManyToManyField
 from django.http import request
 
 from api import ApiClient
@@ -19,23 +20,23 @@ DIFFICULTY_CHOICES = (
 )
 
 
-@dataclass
-class Question:
-    category: str
-    type: str
-    difficulty: str
-    question: str
-    correct_answer: str
-    incorrect_answers: List[str]
-    answers: List[str] = field(default_factory=list, init=False)
-
-    def check_answer(self, answer: str):
-        return answer == self.correct_answer
-
-    def __post_init__(self):
-        self.answers.extend(self.incorrect_answers)
-        self.answers.append(self.correct_answer)
-        random.shuffle(self.answers)
+# class Question(Model):
+#     category = CharField(max_length=42)
+#     type = CharField(max_length=42)
+#     difficulty = CharField(max_length=42)
+#     question = JSONField()
+#     correct_answer = CharField(max_length=42)
+#     incorrect_answers = JSONField(default=list)
+#     answers = JSONField(default=list)
+#
+#     def check_answer(self, answer: str):
+#         return answer == self.correct_answer
+#
+#     def __post_init__(self):
+#         self.combined_answers = []
+#         self.combined_answers += self.incorrect_answers
+#         self.combined_answers.append(self.correct_answer)
+#         random.shuffle(self.combined_answers)
 
 
 class Category(Model):
@@ -51,7 +52,7 @@ class Quiz(Model):
     difficulty = CharField(max_length=32, choices=DIFFICULTY_CHOICES)
     current_question = IntegerField(default=0)
     score = IntegerField(default=0)
-    questions = JSONField()
+    questions = JSONField(null=True, blank=True)
     player_name = CharField(max_length=255, blank=True, null=True)
 
     @classmethod
@@ -83,17 +84,20 @@ class Quiz(Model):
         return quiz
 
     def check_answer(self, answer):
-        correct_answer = json.loads(self.questions)[self.current_question]["correct_answer"]
+        print('CHECK questions: ', self.questions)
+        print('CHECK current: ', self.current_question)
+        correct_answer = self.questions[self.current_question]["correct_answer"]
         if answer == correct_answer:
             self.score += 1
 
     def get_question(self):
-        print('Otázky: ', self.questions)
         if not self.questions:
             raise IndexError("No questions remaining.")
 
         try:
-            question = random.choice(self.question)
+            question = random.choice(self.questions)
+            question["answers"] = question["incorrect_answers"] + [question["correct_answer"]]
+            random.shuffle(question["answers"])
             print('question: ', question)
             return question
 
@@ -116,3 +120,4 @@ class Score(Model):
 
     def __str__(self):
         return f"{self.player_name} - {self.score}"
+

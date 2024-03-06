@@ -52,7 +52,7 @@ def on_game(request):
     print('QUIZ on_game: ', quiz)
     print('QUIZ RESTORED')
 
-    if request.method == 'POST':  # Zpracování odpovědi
+    if request.method == 'POST':
         print('POST')
         answer = list(request.POST.get('answer'))
         if answer:
