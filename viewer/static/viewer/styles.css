@@ -68,17 +68,17 @@ input {
     width: 70px;
 }
 
-.category {
+.category-box {
     width: 60%;
     margin-left: 10px;
 }
 
-.difficulty {
+.difficulty-box {
     width: 40%;
     margin-left: 20%;
 }
 
-.count {
+.count-box {
     width: 40%;
     margin-left: 50%;
 }
@@ -167,7 +167,7 @@ button {
 .text-question {
     font-size: 2em;
     text-align: center;
-    max-width: 80%
+    max-width: 80%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -178,6 +178,9 @@ button {
     align-items: flex-start;
     font-size: 1.4em;
     margin-top: 20px;
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: 0;
 }
 
 input[type="radio"] {

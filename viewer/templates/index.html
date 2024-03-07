@@ -7,10 +7,10 @@
         <form method="post" action="/start_game">
             <div class="start_form">
                 {% csrf_token %}
-                <div class="category">
+                <div class="category-box">
                     <section>
                         <blockquote class="electric bubble"><span>
-                            <select name="category" class="custom-select">
+                            <select id="category" name="category" class="custom-select">
                                 {% for category in categories %}
                                     <option {% if forloop.first %} selected {% endif %} value="{{ category.id }}">{{ category.name|title }}</option>
                                 {% endfor %}
@@ -20,10 +20,10 @@
                     <h2 class="text">Chose topic</h2>
                 </div>
 
-                <div class="difficulty">
+                <div class="difficulty-box">
                     <section>
                         <blockquote class="electric bubble"><span>
-                            <select name="difficulty" class="custom-select">
+                            <select id="difficulty" name="difficulty" class="custom-select">
                                 {% for level in difficulty %}
                                     <option {% if forloop.first %}selected{% endif %} value="{{ level }}">{{ level|title }}</option>
                                 {% endfor %}
@@ -33,17 +33,17 @@
                     <h2 class="text">Choose the difficulty level</h2>
                 </div>
 
-                <div class="count">
+                <div class="count-box">
 
                 <section>
-                    <blockquote class="electric bubble"><span><input class="electric bubble" type="number" name="quantity" min="1" max="{{ amount }}" value="10"></span></blockquote>
+                    <blockquote class="electric bubble"><span><input class="electric bubble" type="number" id="quantity" name="quantity" min="1" max="{{ amount }}" value="10"></span></blockquote>
                 </section>
-                <h2 class="text">Choose number of questions (max:<span id="available_questions"></span>)</h2>
+                <h2 class="text">Choose number of questions (Selected number:<span id="available_questions"></span>)</h2>
                 </div>
             </div>
 
             <div class="start">
-                <button type="submit" class="start_game_button">Start game!</button>
+                <button type="submit" class="start_game_button" id="start_game_button">Start game!</button>
             </div>
         </form>
 
