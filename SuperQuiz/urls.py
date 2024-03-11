@@ -25,4 +25,6 @@ urlpatterns = [
     path('start_game', start_game, name='start_game'),
     path('on_game', on_game, name='on_game'),
     path('finish', results, name='finish'),
+    path('save_score/', save_score, name='save_score'),
+    path('leaderboard/', leaderboard, name='leaderboard'),
 ]

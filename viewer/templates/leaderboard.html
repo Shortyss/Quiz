@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="title">Leaderboard</h1>
+    <ol>
+        {% for score in scores %}
+        <li>Name: {{ score.player_name }} - Score: {{ score.score }}</li>
+        {% endfor %}
+    </ol>
+
+    <a class="link" href="{% url 'index' %}">Back to Home</a>
+</body>
+{% endblock %}

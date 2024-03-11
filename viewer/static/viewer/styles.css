@@ -4,6 +4,7 @@
 }
 
 body {
+    min-height: 100vh;
     width: 100vw;
     background: linear-gradient(to bottom, #B407FF, #FFFFFF);
     font-family: SequentialistBB, cursive;
@@ -116,9 +117,9 @@ section:nth-of-type(3) {
 }
 blockquote.bubble {
 	background-position: center;
-  background-repeat: no-repeat !important;
+    background-repeat: no-repeat !important;
 	background-size: 100% 100%;
-  margin: 0 auto;
+    margin: 0 auto;
 	text-align: center;
 	height: center;
 	box-sizing: content-box;
@@ -139,7 +140,7 @@ blockquote.electric span {
   font-weight: bold;
 }
 
-button {
+.button, button {
     height: 40px;
     width: 300px;
     background: #9933ff;
@@ -147,6 +148,7 @@ button {
     font-weight: bold;
     font-size: 2em;
     cursor: pointer;
+    border-radius: 8px;
 }
 
 .start {
@@ -185,4 +187,46 @@ button {
 
 input[type="radio"] {
     cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    font-size: 2.5em;
+    font-weight: bold;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.6em;
+}
+
+li::before {
+    content: counter(list-item) ".";
+    counter-increment: list-item;
+    font-weight: bold;
+}
+
+.results, .link {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    padding: 10px;
+    margin: 10px;
+}
+
+.name, .link {
+    text-align: center;
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.input-name  {
+    margin-bottom: 10px;
+    height: 40px;
+    width: 400px;
+    border: solid 2px black;
+    border-radius: 8px;
 }

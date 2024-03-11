@@ -40,7 +40,6 @@ INSTALLED_APPS = [
 
     'viewer',
     'api',
-    'quiz',
     'bootstrap4',
 ]
 

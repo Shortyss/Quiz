@@ -1,24 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>The best score:</h1>
+    <h1 class="title">The best score:</h1>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Score</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for score in scores %}
-            <tr>
-                <td>{{ score.name }}</td>
-                <td>{{ score.score }}</td>
-                <td>{{ score.date_played }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <h1 class="title">Quiz Results</h1>
+    <form class="results" action="{% url 'save_score' %}" method="post">
+        {% csrf_token %}
+        <label class="name" for="player_name">Enter your name:</label>
+        <input class="input-name" type="text" id="player_name" name="player_name" required>
+        <input type="hidden" name="score" value="{{ result.score }}">
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}">
+        <input class="button" type="submit" value="Save Score">
+    </form>
+    <br>
+    <a class="link" href="{% url 'leaderboard' %}">View Leaderboard</a>
 {% endblock %}

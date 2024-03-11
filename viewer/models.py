@@ -1,14 +1,9 @@
 import json
 import random
-from dataclasses import dataclass, field
-from typing import List
 
-import requests
-
-from django.db import models
-from django.db.models import Model, TextChoices, CharField, IntegerField, DateTimeField, JSONField, ForeignKey, \
-    DO_NOTHING, TextField, ManyToManyField
+from django.db.models import Model, CharField, IntegerField, DateTimeField, JSONField
 from django.http import request
+from django.shortcuts import redirect, render
 
 from api import ApiClient
 
@@ -20,30 +15,20 @@ DIFFICULTY_CHOICES = (
 )
 
 
-# class Question(Model):
-#     category = CharField(max_length=42)
-#     type = CharField(max_length=42)
-#     difficulty = CharField(max_length=42)
-#     question = JSONField()
-#     correct_answer = CharField(max_length=42)
-#     incorrect_answers = JSONField(default=list)
-#     answers = JSONField(default=list)
-#
-#     def check_answer(self, answer: str):
-#         return answer == self.correct_answer
-#
-#     def __post_init__(self):
-#         self.combined_answers = []
-#         self.combined_answers += self.incorrect_answers
-#         self.combined_answers.append(self.correct_answer)
-#         random.shuffle(self.combined_answers)
-
-
 class Category(Model):
     name = CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name
+
+
+class Score(Model):
+    player_name = CharField(max_length=255)
+    score = IntegerField()
+    timestamp = DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.player_name} - {self.score}"
 
 
 class Quiz(Model):
@@ -58,10 +43,6 @@ class Quiz(Model):
     @classmethod
     def create_game(cls, number_of_questions, difficulty, category):
         questions = ApiClient.get_questions(number_of_questions, category, difficulty)
-        print('create question: ', questions)
-        print('model questions: ', number_of_questions)
-        print('Model category: ', category)
-        print('model difficulty: ', difficulty)
 
         quiz = cls.objects.create(
             number_of_questions=number_of_questions,
@@ -69,7 +50,6 @@ class Quiz(Model):
             difficulty=difficulty,
             questions=questions,
         )
-        print('create question2: ', quiz.questions)
         return quiz
 
     def save_game(self):
@@ -84,21 +64,26 @@ class Quiz(Model):
         return quiz
 
     def check_answer(self, answer):
-        print('CHECK questions: ', self.questions)
-        print('CHECK current: ', self.current_question)
-        correct_answer = self.questions[self.current_question]["correct_answer"]
-        if answer == correct_answer:
-            self.score += 1
+        answer = ''.join(answer).strip()
+        if self.current_question < len(self.questions):
+            correct_answer = self.questions[self.current_question]['correct_answer'].strip()
+            self.current_question += 1
+            if answer == correct_answer:
+                self.score += 1
+                self.save()
+
+        if self.current_question >= len(self.questions):
+            return redirect('/finish')
 
     def get_question(self):
         if not self.questions:
-            raise IndexError("No questions remaining.")
+            return redirect('/finish')
 
         try:
-            question = random.choice(self.questions)
+            question = self.questions[self.current_question]
             question["answers"] = question["incorrect_answers"] + [question["correct_answer"]]
             random.shuffle(question["answers"])
-            print('question: ', question)
+            self.current_question += 1
             return question
 
         except (IndexError, json.JSONDecodeError) as e:
@@ -108,16 +93,36 @@ class Quiz(Model):
     def get_result(self):
         return {'score': self.score, 'number_of_questions': self.number_of_questions}
 
-    def stop_game(self, request):
-        self.player_name = request.POST['player_name']
+    @classmethod
+    def results(request):
+        quiz_id = request.GET.get('quiz_id')
+        if not quiz_id:
+            return redirect('/')
+
+        quiz = Quiz.restore_game(quiz_id)
+        if not quiz:
+            return redirect('/')
+
+        result = quiz.get_result()
+        quiz.stop_game()
+        return render(request, 'results.html', {'result': result})
+
+    def stop_game(self):
         self.save()
 
+    def save_score(request):
+        if request.method == 'POST':
+            player_name = request.POST.get('player_name')
+            score = int(request.POST.get('score'))
+            if player_name and score:
+                print("Player Name:", player_name)
+                print("Score:", score)
+                score_instance = Score(player_name=player_name, score=score)
+                score_instance.save()
+        return redirect('leaderboard')
 
-class Score(Model):
-    player_name = CharField(max_length=255)
-    score = IntegerField()
-    timestamp = DateTimeField(auto_now_add=True)
+    def leaderboard(request):
+        scores = Score.objects.order_by('-score')[:10]
+        return render(request, 'leaderboard.html', {'scores': scores})
 
-    def __str__(self):
-        return f"{self.player_name} - {self.score}"
 
