@@ -115,8 +115,6 @@ class Quiz(Model):
             player_name = request.POST.get('player_name')
             score = int(request.POST.get('score'))
             if player_name and score:
-                print("Player Name:", player_name)
-                print("Score:", score)
                 score_instance = Score(player_name=player_name, score=score)
                 score_instance.save()
         return redirect('leaderboard')

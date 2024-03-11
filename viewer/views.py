@@ -34,7 +34,6 @@ def start_game(request):
     quiz = Quiz.create_game(number_of_questions, difficulty, category)
     quiz.save_game()
     quiz_id = quiz.id
-    print('start id: ', quiz_id)
     return redirect('/on_game?quiz_id=' + str(quiz_id), {'quiz_id': quiz_id})
 
 
@@ -52,7 +51,6 @@ def on_game(request):
             score=quiz.score,
         )
         result.save()
-        print('on_game id', quiz_id)
 
         return redirect('/finish?quiz_id=' + str(quiz_id), {'quiz_id': quiz_id})
 
@@ -101,5 +99,4 @@ def save_score(request):
 
 def leaderboard(request):
     scores = Score.objects.order_by('-score')[:10]
-    print('name: ', scores)
     return render(request, 'leaderboard.html', {'scores': scores})
